@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <NavBar/>
     <img alt="Vue logo" src="./assets/logo.png" />
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
   </div>
@@ -8,9 +9,11 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import HelloWorld from "./components/HelloWorld.vue";
+import NavBar from "@/NavBar.vue";
 
 @Component({
   components: {
+    NavBar,
     HelloWorld
   }
 })
@@ -24,6 +27,5 @@ export default class App extends Vue {}
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
