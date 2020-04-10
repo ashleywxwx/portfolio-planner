@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 interface VuexState {
   positions: Array<Position>;
+  availableFunds: number | undefined;
 }
 
 function getTotalValue(positions: Array<Position>): number {
@@ -28,7 +29,8 @@ export default new Vuex.Store({
       new Position("TREX", 10, 5, 25),
       new Position("NIPS", 1, 100, 50),
       new Position("STLK", 2, 20, 20)
-    )
+    ),
+    availableFunds: undefined
   },
   getters: {
     totalValue: (state: VuexState): number => {
@@ -52,11 +54,14 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    addPosition(state, position) {
+    addPosition(state: VuexState, position: Position): void {
       state.positions = [...state.positions, position];
     },
-    removePosition(state, symbol) {
+    removePosition(state: VuexState, symbol: string): void {
       state.positions = state.positions.filter(p => p.symbol !== symbol);
+    },
+    updateAvailableFunds(state: VuexState, funds: number): void {
+      state.availableFunds = funds;
     }
   },
   actions: {},

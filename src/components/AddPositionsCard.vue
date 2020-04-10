@@ -32,7 +32,7 @@
             label-for="input-shares"
             description="Currently Held Shares"
           >
-            <b-form-input id="input-symbol" v-model="newShares" type="number" required size="sm"></b-form-input>
+            <b-form-input id="input-shares" v-model="newShares" type="number" required size="sm"></b-form-input>
           </b-form-group>
         </b-col>
         <b-col>
@@ -57,11 +57,16 @@
     <b-progress show-value>
       <b-progress-bar :value="totalValue" v-bind:variant="progressVariant"></b-progress-bar>
     </b-progress>
+
+    <b-card-text class="mt-3">Available Funds</b-card-text>
+    <b-input-group prepend="$" type="number" class="funds-input">
+      <b-form-input v-model="availableFunds" type="number"></b-form-input>
+    </b-input-group>
   </b-card>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import Position from "@/models/Position";
 import Portfolio from "@/components/Portfolio.vue";
 
@@ -73,6 +78,7 @@ export default class AddPositionsCard extends Vue {
   newPrice = "";
   newShares = "";
   newTarget = "";
+  availableFunds = "";
 
   // TODO: Validations
   addPosition(): void {
@@ -85,6 +91,12 @@ export default class AddPositionsCard extends Vue {
     this.newShares = "";
     this.newTarget = "";
   }
+
+  @Watch("availableFunds")
+  updateAvailableFunds(): void {
+    this.$store.commit("updateAvailableFunds", this.availableFunds);
+  }
+
   get totalValue(): number {
     return this.$store.getters.currentTotalTarget;
   }
@@ -103,5 +115,8 @@ export default class AddPositionsCard extends Vue {
 <style lang="scss">
 .add-position-btn {
   margin-top: 32px;
+}
+.funds-input {
+  max-width: 12em;
 }
 </style>
