@@ -12,8 +12,12 @@
         </b-jumbotron>
       </b-row>
 
-      <b-row>
+      <b-row class="mb-4">
         <AddPositionsCard />
+      </b-row>
+
+      <b-row class="mb-4">
+        <Portfolio></Portfolio>
       </b-row>
     </b-container>
   </div>
@@ -23,9 +27,11 @@
 import { Component, Vue } from "vue-property-decorator";
 import NavBar from "@/components/MyNavBar.vue";
 import AddPositionsCard from "@/components/AddPositionsCard.vue";
+import Portfolio from "@/components/Portfolio.vue";
 
 @Component({
   components: {
+    Portfolio,
     AddPositionsCard,
     NavBar
   }
@@ -42,6 +48,5 @@ export default class App extends Vue {}
 
 .container {
   padding-top: 15px;
-  padding-bottom: 15px;
 }
 </style>

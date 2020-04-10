@@ -1,5 +1,5 @@
 <template>
-  <b-card header="My Positions" header-tag="header">
+  <b-card header="Add Positions" header-tag="header">
     <b-card-text>Add your current positions</b-card-text>
     <b-form @submit.prevent="addPosition">
       <b-form-row>
@@ -48,51 +48,26 @@
           </b-form-group>
         </b-col>
         <b-col md="auto">
-          <b-button variant="primary" size="sm" class="add-position" type="submit">Add</b-button>
+          <b-button variant="primary" size="sm" class="add-position-btn" type="submit">Add</b-button>
         </b-col>
       </b-form-row>
     </b-form>
-    <div>
-      <b-card-text>Current Positions</b-card-text>
-      <b-table striped hover :items="positions" :fields="positionsFields">
-        <template v-slot:cell(actions)="row">
-          <b-button size="sm" @click="deletePosition(row.item.symbol)" class="mr-1">
-            Delete
-          </b-button>
-        </template>
-      </b-table>
-    </div>
   </b-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Position from "@/models/Position";
+import Portfolio from "@/components/Portfolio.vue";
 
-interface PositionFields {
-  key: string;
-  label: string;
-  sortable?: boolean;
-}
-
-@Component
+@Component({
+  components: { Portfolio }
+})
 export default class AddPositionsCard extends Vue {
-  // positions: Array<Position>;
   newSymbol = "";
   newPrice = "";
   newShares = "";
   newTarget = "";
-  positionsFields: Array<PositionFields> = [
-    { key: "symbol", label: "Symbol", sortable: true },
-    { key: "price", label: "Current Price", sortable: true },
-    { key: "shares", label: "Current Shares", sortable: true },
-    { key: "target", label: "Target Allocation", sortable: true },
-    { key: "actions", label: "Actions" }
-  ];
-
-  get positions() {
-    return this.$store.state.positions;
-  }
 
   // TODO: Validations
   addPosition(): void {
@@ -105,15 +80,11 @@ export default class AddPositionsCard extends Vue {
     this.newShares = "";
     this.newTarget = "";
   }
-
-  deletePosition(symbol: string): void {
-    this.$store.commit("removePosition", symbol);
-  }
 }
 </script>
 
 <style lang="scss">
-.add-position {
+.add-position-btn {
   margin-top: 32px;
 }
 </style>
