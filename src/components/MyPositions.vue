@@ -1,5 +1,5 @@
 <template>
-  <b-card header="My Portfolio" header-tag="header">
+  <b-card header="My Positions" header-tag="header">
     <b-card-text>Add your current positions</b-card-text>
 
     <b-form-row>
@@ -16,7 +16,7 @@
       <b-col>
         <b-form-group id="input-group-price" label="Price" label-for="input-price" description="Current Trading Price">
           <b-input-group size="sm" prepend="$">
-            <b-form-input id="input-price" v-model="newPrice" type="text" required size="sm"></b-form-input>
+            <b-form-input id="input-price" v-model="newPrice" type="number" required size="sm"></b-form-input>
           </b-input-group>
         </b-form-group>
       </b-col>
@@ -43,13 +43,13 @@
         </b-form-group>
       </b-col>
       <b-col md="auto">
-        <b-button variant="primary" size="sm" class="add-position" type="submit" @click="addToPortfolio">Add</b-button>
+        <b-button variant="primary" size="sm" class="add-position" type="submit" @click="addPosition">Add</b-button>
       </b-col>
     </b-form-row>
 
     <div>
       <b-card-text>Current Positions</b-card-text>
-      <b-table striped hover :items="portfolio" :fields="portfolioFields">
+      <b-table striped hover :items="positions" :fields="positionsFields">
         <template v-slot:cell(actions)="row">
           <b-button size="sm" @click="deletePosition(row.item.symbol)" class="mr-1">
             Delete
@@ -78,13 +78,13 @@ class Position {
 }
 
 @Component
-export default class MyPortfolio extends Vue {
-  portfolio: Array<Position> = [];
+export default class MyPositions extends Vue {
+  positions: Array<Position> = [];
   newSymbol = "";
   newPrice = 0;
   newShares = 0;
   newTarget = 0;
-  portfolioFields: Array<Record<string, any>> = [
+  positionsFields: Array<Record<string, any>> = [
     { key: "symbol", label: "Symbol", sortable: true },
     { key: "price", label: "Current Price", sortable: true },
     { key: "shares", label: "Current Shares", sortable: true },
@@ -92,17 +92,18 @@ export default class MyPortfolio extends Vue {
     { key: "actions", label: "Actions" }
   ];
 
-  addToPortfolio(): void {
-    if (this.newSymbol !== "" && this.newPrice > 0.01 && this.newShares >= 0 && this.newTarget >= 0) {
-      this.portfolio.push(new Position(this.newSymbol, this.newPrice, this.newShares, this.newTarget));
-    } else {
-      console.log("Invalid data submitted");
-    }
+  // TODO: Validations
+  addPosition(): void {
+    this.positions.push(new Position(this.newSymbol, this.newPrice, this.newShares, this.newTarget));
+    this.newSymbol = "";
+    this.newPrice = 0;
+    this.newShares = 0;
+    this.newTarget = 0;
   }
 
   deletePosition(symbol: string): void {
     console.log("Deleting position: " + symbol);
-    this.portfolio = this.portfolio.filter(p => p.symbol !== symbol);
+    this.positions = this.positions.filter(p => p.symbol !== symbol);
   }
 }
 </script>

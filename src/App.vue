@@ -23,11 +23,11 @@
 import { Component, Vue } from "vue-property-decorator";
 import HelloWorld from "./components/HelloWorld.vue";
 import NavBar from "@/components/MyNavBar.vue";
-import MyPortfolio from "@/components/MyPortfolio.vue";
+import MyPositions from "@/components/MyPositions.vue";
 
 @Component({
   components: {
-    MyPortfolio,
+    MyPortfolio: MyPositions,
     NavBar,
     HelloWorld
   }
