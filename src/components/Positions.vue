@@ -89,7 +89,7 @@ interface PositionFields {
 }
 
 @Component
-export default class MyPositions extends Vue {
+export default class Positions extends Vue {
   positions: Array<Position> = [];
   newSymbol = "";
   newPrice = "";
