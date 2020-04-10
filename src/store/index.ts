@@ -1,8 +1,25 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import Position from "@/models/Position";
+import PortfolioRecord from "@/models/PortfolioRecord";
 
 Vue.use(Vuex);
+
+interface VuexState {
+  positions: Array<Position>;
+}
+
+function getTotalValue(positions: Array<Position>): number {
+  return positions.reduce((acc, cur) => {
+    return acc + cur.price * cur.shares;
+  }, 0);
+}
+
+function getCurrentAllocation(p: Position, positions: Array<Position>) {
+  const currentVal = p.price * p.shares;
+  const totalValue = getTotalValue(positions);
+  return (Math.round((currentVal / totalValue) * 10000) / 100).toFixed(2);
+}
 
 export default new Vuex.Store({
   state: {
@@ -12,6 +29,24 @@ export default new Vuex.Store({
       new Position("NIPS", 1, 100, 50),
       new Position("STLK", 2, 20, 20)
     )
+  },
+  getters: {
+    totalValue: (state: VuexState) => {
+      return getTotalValue(state.positions);
+    },
+    portfolio: (state: VuexState) => {
+      return state.positions.map(
+        (p: Position) =>
+          new PortfolioRecord(
+            p.symbol,
+            p.price,
+            p.shares,
+            p.target,
+            p.price * p.shares,
+            getCurrentAllocation(p, state.positions)
+          )
+      );
+    }
   },
   mutations: {
     addPosition(state, position) {

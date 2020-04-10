@@ -23,16 +23,32 @@ interface PortfolioFields {
 
 @Component({})
 export default class extends Vue {
+  // portfolioFields: Array<PortfolioFields> = [
+  //   { key: "symbol", label: "Symbol", class: "text-center", sortable: true },
+  //   { key: "price", label: "Current Price", class: "text-center", sortable: true, formatter: "prependDollar" },
+  //   { key: "shares", label: "Current Shares", class: "text-center", sortable: true },
+  //   { key: "target", label: "Target Allocation", class: "text-center", sortable: true, formatter: "appendPercent" },
+  //   { key: "actions", class: "text-center", label: "Actions" }
+  // ];
+
   portfolioFields: Array<PortfolioFields> = [
     { key: "symbol", label: "Symbol", class: "text-center", sortable: true },
-    { key: "price", label: "Current Price", class: "text-center", sortable: true, formatter: "prependDollar" },
-    { key: "shares", label: "Current Shares", class: "text-center", sortable: true },
-    { key: "target", label: "Target Allocation", class: "text-center", sortable: true, formatter: "appendPercent" },
+    { key: "price", label: "Price", class: "text-center", sortable: true, formatter: "prependDollar" },
+    { key: "shares", label: "Shares", class: "text-center", sortable: true },
+    { key: "currentValue", label: "Value", class: "text-center", sortable: true, formatter: "prependDollar" },
+    { key: "target", label: "Target", class: "text-center", sortable: true, formatter: "appendPercent" },
+    {
+      key: "currentAllocation",
+      label: "Allocation",
+      class: "text-center",
+      sortable: true,
+      formatter: "appendPercent"
+    },
     { key: "actions", class: "text-center", label: "Actions" }
   ];
 
   get portfolio() {
-    return this.$store.state.positions;
+    return this.$store.getters.portfolio;
   }
 
   deletePosition(symbol: string): void {
