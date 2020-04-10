@@ -23,14 +23,6 @@ interface PortfolioFields {
 
 @Component({})
 export default class extends Vue {
-  // portfolioFields: Array<PortfolioFields> = [
-  //   { key: "symbol", label: "Symbol", class: "text-center", sortable: true },
-  //   { key: "price", label: "Current Price", class: "text-center", sortable: true, formatter: "prependDollar" },
-  //   { key: "shares", label: "Current Shares", class: "text-center", sortable: true },
-  //   { key: "target", label: "Target Allocation", class: "text-center", sortable: true, formatter: "appendPercent" },
-  //   { key: "actions", class: "text-center", label: "Actions" }
-  // ];
-
   portfolioFields: Array<PortfolioFields> = [
     { key: "symbol", label: "Symbol", class: "text-center", sortable: true },
     { key: "price", label: "Price", class: "text-center", sortable: true, formatter: "prependDollar" },

@@ -1,5 +1,5 @@
 <template>
-  <b-card header="Add Positions" header-tag="header">
+  <b-card header="Add Positions and Targets" header-tag="header">
     <b-card-text>Add your current positions</b-card-text>
     <b-form @submit.prevent="addPosition">
       <b-form-row>
@@ -52,6 +52,11 @@
         </b-col>
       </b-form-row>
     </b-form>
+
+    <b-card-text>Current Total Target Allocation</b-card-text>
+    <b-progress show-value>
+      <b-progress-bar :value="totalValue" v-bind:variant="progressVariant"></b-progress-bar>
+    </b-progress>
   </b-card>
 </template>
 
@@ -79,6 +84,18 @@ export default class AddPositionsCard extends Vue {
     this.newPrice = "";
     this.newShares = "";
     this.newTarget = "";
+  }
+  get totalValue(): number {
+    return this.$store.getters.currentTotalTarget;
+  }
+  get progressVariant(): string {
+    if (this.totalValue > 100) {
+      return "error";
+    } else if (this.totalValue < 100) {
+      return "warning";
+    } else {
+      return "success";
+    }
   }
 }
 </script>

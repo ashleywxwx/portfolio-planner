@@ -15,7 +15,7 @@ function getTotalValue(positions: Array<Position>): number {
   }, 0);
 }
 
-function getCurrentAllocation(p: Position, positions: Array<Position>) {
+function getCurrentAllocation(p: Position, positions: Array<Position>): string {
   const currentVal = p.price * p.shares;
   const totalValue = getTotalValue(positions);
   return (Math.round((currentVal / totalValue) * 10000) / 100).toFixed(2);
@@ -31,10 +31,10 @@ export default new Vuex.Store({
     )
   },
   getters: {
-    totalValue: (state: VuexState) => {
+    totalValue: (state: VuexState): number => {
       return getTotalValue(state.positions);
     },
-    portfolio: (state: VuexState) => {
+    portfolio: (state: VuexState): Array<PortfolioRecord> => {
       return state.positions.map(
         (p: Position) =>
           new PortfolioRecord(
@@ -46,6 +46,9 @@ export default new Vuex.Store({
             getCurrentAllocation(p, state.positions)
           )
       );
+    },
+    currentTotalTarget: (state: VuexState): number => {
+      return state.positions.reduce((acc, cur) => acc + cur.target, 0);
     }
   },
   mutations: {
