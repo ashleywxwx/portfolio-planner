@@ -17,7 +17,11 @@
       </b-row>
 
       <b-row class="mb-4">
-        <Portfolio></Portfolio>
+        <PortfolioCard></PortfolioCard>
+      </b-row>
+
+      <b-row class="mb-4">
+        <BuyCard />
       </b-row>
     </b-container>
   </div>
@@ -27,11 +31,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import NavBar from "@/components/MyNavBar.vue";
 import AddPositionsCard from "@/components/AddPositionsCard.vue";
-import Portfolio from "@/components/Portfolio.vue";
+import PortfolioCard from "@/components/PortfolioCard.vue";
+import BuyCard from "@/BuyCard.vue";
 
 @Component({
   components: {
-    Portfolio,
+    BuyCard,
+    PortfolioCard,
     AddPositionsCard,
     NavBar
   }

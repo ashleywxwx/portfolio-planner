@@ -55,7 +55,7 @@
 
     <b-card-text>Current Total Target Allocation</b-card-text>
     <b-progress show-value>
-      <b-progress-bar :value="totalValue" v-bind:variant="progressVariant"></b-progress-bar>
+      <b-progress-bar :value="totalTarget" v-bind:variant="progressVariant"></b-progress-bar>
     </b-progress>
 
     <b-card-text class="mt-3">Available Funds</b-card-text>
@@ -68,11 +68,8 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import Position from "@/models/Position";
-import Portfolio from "@/components/Portfolio.vue";
 
-@Component({
-  components: { Portfolio }
-})
+@Component({})
 export default class AddPositionsCard extends Vue {
   newSymbol = "";
   newPrice = "";
@@ -97,13 +94,13 @@ export default class AddPositionsCard extends Vue {
     this.$store.commit("updateAvailableFunds", this.availableFunds);
   }
 
-  get totalValue(): number {
+  get totalTarget(): number {
     return this.$store.getters.currentTotalTarget;
   }
   get progressVariant(): string {
-    if (this.totalValue > 100) {
-      return "error";
-    } else if (this.totalValue < 100) {
+    if (this.$store.getters.currentTotalTarget > 100) {
+      return "danger";
+    } else if (this.$store.getters.currentTotalTarget < 100) {
       return "warning";
     } else {
       return "success";

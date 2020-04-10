@@ -2,12 +2,13 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Position from "@/models/Position";
 import PortfolioRecord from "@/models/PortfolioRecord";
+import Buy from "@/models/Buy";
 
 Vue.use(Vuex);
 
 interface VuexState {
   positions: Array<Position>;
-  availableFunds: number | undefined;
+  availableFunds: number;
 }
 
 function getTotalValue(positions: Array<Position>): number {
@@ -22,18 +23,23 @@ function getCurrentAllocation(p: Position, positions: Array<Position>): string {
   return (Math.round((currentVal / totalValue) * 10000) / 100).toFixed(2);
 }
 
+const getTotalTarget = (positions: Array<Position>): number => positions.reduce((acc, cur) => acc + cur.target, 0);
+
+const shouldBuyFilter = (totalFunds: number, position: Position): boolean =>
+  Math.floor((totalFunds * (position.target / 100)) / position.price) > position.shares;
+
 export default new Vuex.Store({
   state: {
     positions: Array<Position>(
-      new Position("IDX", 5, 10, 5),
-      new Position("TREX", 10, 5, 25),
-      new Position("NIPS", 1, 100, 50),
-      new Position("STLK", 2, 20, 20)
+      new Position("IDX", 10, 10, 5),
+      new Position("TREX", 10, 50, 25),
+      new Position("NIPS", 10, 100, 50),
+      new Position("STLK", 20, 40, 20)
     ),
-    availableFunds: undefined
+    availableFunds: 0
   },
   getters: {
-    totalValue: (state: VuexState): number => {
+    currentPortfolioValue: (state: VuexState): number => {
       return getTotalValue(state.positions);
     },
     portfolio: (state: VuexState): Array<PortfolioRecord> => {
@@ -50,7 +56,23 @@ export default new Vuex.Store({
       );
     },
     currentTotalTarget: (state: VuexState): number => {
-      return state.positions.reduce((acc, cur) => acc + cur.target, 0);
+      return getTotalTarget(state.positions);
+    },
+    buys: (state: VuexState): Array<Buy> => {
+      if (state.availableFunds > 0 && getTotalTarget(state.positions) === 100) {
+        const totalFunds = +state.availableFunds + +getTotalValue(state.positions);
+        const shouldBuy = state.positions.filter(position => shouldBuyFilter(totalFunds, position));
+
+        return shouldBuy
+          .map(position => {
+            const overTarget = position.target / getTotalTarget(shouldBuy);
+            const shares = Math.floor((state.availableFunds * overTarget) / position.price);
+            return new Buy(position.symbol, shares);
+          })
+          .filter(buy => buy.shares > 0);
+      } else {
+        return new Array<Buy>();
+      }
     }
   },
   mutations: {
