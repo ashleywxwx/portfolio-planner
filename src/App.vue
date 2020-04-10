@@ -13,7 +13,7 @@
       </b-row>
 
       <b-row>
-        <Positions />
+        <AddPositionsCard />
       </b-row>
     </b-container>
   </div>
@@ -22,11 +22,11 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import NavBar from "@/components/MyNavBar.vue";
-import Positions from "@/components/Positions.vue";
+import AddPositionsCard from "@/components/AddPositionsCard.vue";
 
 @Component({
   components: {
-    Positions,
+    AddPositionsCard,
     NavBar
   }
 })

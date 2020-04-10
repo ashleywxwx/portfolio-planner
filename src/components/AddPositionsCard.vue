@@ -67,20 +67,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-
-class Position {
-  symbol: string;
-  price: number;
-  shares: number;
-  target: number;
-
-  constructor(symbol: string, price: number, shares: number, target: number) {
-    this.symbol = symbol;
-    this.price = price;
-    this.shares = shares;
-    this.target = target;
-  }
-}
+import Position from "@/models/Position";
 
 interface PositionFields {
   key: string;
@@ -89,8 +76,8 @@ interface PositionFields {
 }
 
 @Component
-export default class Positions extends Vue {
-  positions: Array<Position> = [];
+export default class AddPositionsCard extends Vue {
+  // positions: Array<Position>;
   newSymbol = "";
   newPrice = "";
   newShares = "";
@@ -103,10 +90,14 @@ export default class Positions extends Vue {
     { key: "actions", label: "Actions" }
   ];
 
+  get positions() {
+    return this.$store.state.positions;
+  }
+
   // TODO: Validations
   addPosition(): void {
-    console.log("do the thing");
-    this.positions.push(
+    this.$store.commit(
+      "addPosition",
       new Position(this.newSymbol, parseInt(this.newPrice), parseInt(this.newShares), parseInt(this.newTarget))
     );
     this.newSymbol = "";
@@ -116,8 +107,7 @@ export default class Positions extends Vue {
   }
 
   deletePosition(symbol: string): void {
-    console.log("Deleting position: " + symbol);
-    this.positions = this.positions.filter(p => p.symbol !== symbol);
+    this.$store.commit("removePosition", symbol);
   }
 }
 </script>
