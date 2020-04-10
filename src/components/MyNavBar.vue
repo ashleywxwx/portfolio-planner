@@ -6,9 +6,7 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item href="https://www.recursivechaos.com/" target="_blank"
-          >About Creator</b-nav-item
-        >
+        <b-nav-item href="https://www.recursivechaos.com/" target="_blank">About the Creator</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
