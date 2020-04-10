@@ -13,7 +13,7 @@
       </b-row>
 
       <b-row>
-        <MyPortfolio />
+        <MyPositions />
       </b-row>
     </b-container>
   </div>
@@ -21,15 +21,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
 import NavBar from "@/components/MyNavBar.vue";
 import MyPositions from "@/components/MyPositions.vue";
 
 @Component({
   components: {
-    MyPortfolio: MyPositions,
-    NavBar,
-    HelloWorld
+    MyPositions,
+    NavBar
   }
 })
 export default class App extends Vue {}
