@@ -32,7 +32,7 @@ import { Component, Vue } from "vue-property-decorator";
 import NavBar from "@/components/MyNavBar.vue";
 import AddPositionsCard from "@/components/AddPositionsCard.vue";
 import PortfolioCard from "@/components/PortfolioCard.vue";
-import BuyCard from "@/BuyCard.vue";
+import BuyCard from "@/components/BuyCard.vue";
 
 @Component({
   components: {

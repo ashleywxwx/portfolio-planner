@@ -12,26 +12,23 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-
-interface PortfolioFields {
-  key: string;
-  label: string;
-  class: string;
-  sortable?: boolean;
-  formatter?: string;
-}
+import { prependDollar, appendPercent } from "@/utils/GraphFormatters";
+import TableFields from "@/models/TableFields";
 
 @Component({})
 export default class extends Vue {
-  portfolioFields: Array<PortfolioFields> = [
+  prependDollar = prependDollar;
+  appendPercent = appendPercent;
+
+  portfolioFields: Array<TableFields> = [
     { key: "symbol", label: "Symbol", class: "text-center", sortable: true },
-    { key: "price", label: "Price", class: "text-center", sortable: true, formatter: "prependDollar" },
     { key: "shares", label: "Shares", class: "text-center", sortable: true },
+    { key: "price", label: "Price", class: "text-center", sortable: true, formatter: "prependDollar" },
     { key: "currentValue", label: "Value", class: "text-center", sortable: true, formatter: "prependDollar" },
-    { key: "target", label: "Target", class: "text-center", sortable: true, formatter: "appendPercent" },
+    { key: "target", label: "Target Allocation", class: "text-center", sortable: true, formatter: "appendPercent" },
     {
       key: "currentAllocation",
-      label: "Allocation",
+      label: "Current Allocation",
       class: "text-center",
       sortable: true,
       formatter: "appendPercent"
@@ -45,14 +42,6 @@ export default class extends Vue {
 
   deletePosition(symbol: string): void {
     this.$store.commit("removePosition", symbol);
-  }
-
-  prependDollar(value: number): string {
-    return "$" + value.toFixed(2);
-  }
-
-  appendPercent(value: number): string {
-    return value + "%";
   }
 }
 </script>

@@ -2,7 +2,7 @@ import Position from "@/models/Position";
 
 export default class PortfolioRecord extends Position {
   currentValue: number;
-  currentAllocation: string;
+  currentAllocation: number;
 
   constructor(
     symbol: string,
@@ -10,7 +10,7 @@ export default class PortfolioRecord extends Position {
     shares: number,
     target: number,
     currentValue: number,
-    currentAllocation: string
+    currentAllocation: number
   ) {
     super(symbol, price, shares, target);
     this.currentValue = currentValue;
