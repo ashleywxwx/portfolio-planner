@@ -4,24 +4,32 @@
 
     <b-container>
       <b-row>
-        <b-jumbotron
-          header="Portfolio Calculator"
-          lead="Help calculate potential index fund and stock choices for a balanced portfolio"
-        >
-          <p>This is not financial planning advice, please don't sue me.</p>
-        </b-jumbotron>
+        <b-col>
+          <b-jumbotron
+            header="Portfolio Calculator"
+            lead="Help calculate potential index fund and stock choices for a balanced portfolio"
+          >
+            <p>This is not financial planning advice, please don't sue me.</p>
+          </b-jumbotron>
+        </b-col>
       </b-row>
 
       <b-row class="mb-4">
-        <AddPositionsCard />
+        <b-col>
+          <AddPositionsCard />
+        </b-col>
       </b-row>
 
       <b-row class="mb-4">
-        <PortfolioCard></PortfolioCard>
+        <b-col>
+          <PortfolioCard></PortfolioCard>
+        </b-col>
       </b-row>
 
       <b-row class="mb-4">
-        <BuyCard />
+        <b-col>
+          <BuyCard />
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -52,7 +60,7 @@ export default class App extends Vue {}
   -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
-  padding-top: 15px;
+.jumbotron {
+  margin-top: 32px;
 }
 </style>
