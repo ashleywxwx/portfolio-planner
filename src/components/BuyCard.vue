@@ -7,6 +7,7 @@
       v-if="!invalidTarget && !invalidFunds"
       striped
       borderless
+      responsive
       small
       hover
       :items="buys"
