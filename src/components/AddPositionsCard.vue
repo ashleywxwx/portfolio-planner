@@ -75,7 +75,7 @@ export default class AddPositionsCard extends Vue {
   newPrice = "";
   newShares = "";
   newTarget = "";
-  availableFunds = "";
+  availableFunds = 1000;
 
   // TODO: Validations
   addPosition(): void {
