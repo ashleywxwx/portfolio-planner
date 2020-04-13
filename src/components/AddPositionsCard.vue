@@ -54,8 +54,10 @@
     </b-form>
 
     <b-card-text>Current Total Target Allocation</b-card-text>
-    <b-progress show-value>
-      <b-progress-bar :value="totalTarget" v-bind:variant="progressVariant"></b-progress-bar>
+    <b-progress height="2rem" :style="{ fontSize: 1.25 + 'em' }">
+      <b-progress-bar :value="totalTarget" v-bind:variant="progressVariant"
+        ><strong>{{ totalTarget }}%</strong></b-progress-bar
+      >
     </b-progress>
 
     <b-card-text class="mt-3">Available Funds</b-card-text>
