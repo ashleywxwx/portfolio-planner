@@ -2,12 +2,12 @@
   <div id="app">
     <NavBar />
 
-    <b-container>
+    <b-container fluid="md">
       <b-row>
         <b-col>
           <b-jumbotron
             header="Portfolio Calculator"
-            lead="Help calculate potential index fund and stock choices for a balanced portfolio"
+            lead="Help calculate potential index fund and stock choices for a balanced portfolio. Provide your current positions, desired portfolio mix, and available funds, and this tool will calculate what you might buy to align your portfolio to your target goals."
           >
             <p>This is not financial planning advice, please don't sue me.</p>
           </b-jumbotron>

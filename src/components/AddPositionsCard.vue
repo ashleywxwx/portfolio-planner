@@ -3,7 +3,7 @@
     <b-card-text>Add your current positions</b-card-text>
     <b-form @submit.prevent="addPosition">
       <b-form-row>
-        <b-col>
+        <b-col md>
           <b-form-group
             id="input-group-symbol"
             label="Symbol"
@@ -13,7 +13,7 @@
             <b-form-input id="input-symbol" v-model="newSymbol" type="text" required size="sm"></b-form-input>
           </b-form-group>
         </b-col>
-        <b-col>
+        <b-col md>
           <b-form-group
             id="input-group-price"
             label="Price"
@@ -25,7 +25,7 @@
             </b-input-group>
           </b-form-group>
         </b-col>
-        <b-col>
+        <b-col md>
           <b-form-group
             id="input-group-shares"
             label="Current Shares"
@@ -35,7 +35,7 @@
             <b-form-input id="input-shares" v-model="newShares" type="number" required size="sm"></b-form-input>
           </b-form-group>
         </b-col>
-        <b-col>
+        <b-col md>
           <b-form-group
             id="input-group-target"
             label="Target Allocation"
@@ -47,8 +47,8 @@
             </b-input-group>
           </b-form-group>
         </b-col>
-        <b-col md="auto">
-          <b-button variant="primary" size="sm" class="add-position-btn" type="submit">Add</b-button>
+        <b-col md align-h="end">
+          <b-button variant="primary" size="sm" class="add-position-btn col-xs-12 col-lg-4" type="submit">Add</b-button>
         </b-col>
       </b-form-row>
     </b-form>
@@ -110,8 +110,15 @@ export default class AddPositionsCard extends Vue {
 </script>
 
 <style lang="scss">
-.add-position-btn {
-  margin-top: 32px;
+@media (min-width: 768px) {
+  .add-position-btn {
+    margin-top: 32px;
+  }
+}
+@media (max-width: 768px) {
+  .add-position-btn {
+    margin-bottom: 32px;
+  }
 }
 .funds-input {
   max-width: 12em;
