@@ -114,13 +114,13 @@ export default class AddPositionsCard extends Vue {
   .add-position-btn {
     margin-top: 32px;
   }
+  .funds-input {
+    max-width: 12em;
+  }
 }
 @media (max-width: 768px) {
   .add-position-btn {
     margin-bottom: 32px;
   }
-}
-.funds-input {
-  max-width: 12em;
 }
 </style>
