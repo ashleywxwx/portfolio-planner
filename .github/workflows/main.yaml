@@ -28,4 +28,4 @@ jobs:
           export_default_credentials: true
 
       - name: Deploy
-        run: gsutil rsync ./dist gs://portfolio.doc.money
+        run: gsutil rsync -r ./dist gs://portfolio.doc.money
