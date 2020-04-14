@@ -1,7 +1,15 @@
 export function prependDollar(value: number): string {
-  return "$" + value.toFixed(2);
+  if (value) {
+    return "$" + value.toFixed(2);
+  } else {
+    return "$0";
+  }
 }
 
 export function appendPercent(value: number): string {
-  return value + "%";
+  if (value) {
+    return value + "%";
+  } else {
+    return "0%";
+  }
 }

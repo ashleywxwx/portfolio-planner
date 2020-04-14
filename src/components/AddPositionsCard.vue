@@ -1,7 +1,7 @@
 <template>
   <b-card header="Add Positions and Targets" header-tag="header">
     <b-card-text>Add your current positions</b-card-text>
-    <b-form @submit.prevent="addPosition">
+    <b-form @submit.prevent="addPosition" novalidate>
       <b-form-row>
         <b-col md>
           <b-form-group
@@ -9,10 +9,19 @@
             label="Symbol"
             label-for="input-symbol"
             description="Index or Stock Ticker Symbol"
+            invalid-feedback="Valid symbol required"
           >
-            <b-form-input id="input-symbol" v-model="newSymbol" type="text" required size="sm"></b-form-input>
+            <b-form-input
+              id="input-symbol"
+              v-model="newSymbol"
+              type="text"
+              required
+              size="sm"
+              :state="validSymbol ? null : false"
+            ></b-form-input>
           </b-form-group>
         </b-col>
+
         <b-col md>
           <b-form-group
             id="input-group-price"
@@ -21,20 +30,38 @@
             description="Current Trading Price"
           >
             <b-input-group size="sm" prepend="$">
-              <b-form-input id="input-price" v-model="newPrice" type="number" required size="sm"></b-form-input>
+              <b-form-input
+                id="input-price"
+                v-model="newPrice"
+                type="number"
+                required
+                size="sm"
+                :state="validPrice ? null : false"
+              ></b-form-input>
             </b-input-group>
+            <b-form-invalid-feedback :state="validPrice ? null : false">Must be $0 or higher</b-form-invalid-feedback>
           </b-form-group>
         </b-col>
+
         <b-col md>
           <b-form-group
             id="input-group-shares"
             label="Current Shares"
             label-for="input-shares"
             description="Currently Held Shares"
+            invalid-feedback="Must be greater than 0"
           >
-            <b-form-input id="input-shares" v-model="newShares" type="number" required size="sm"></b-form-input>
+            <b-form-input
+              id="input-shares"
+              v-model="newShares"
+              type="number"
+              required
+              size="sm"
+              :state="validShares ? null : false"
+            ></b-form-input>
           </b-form-group>
         </b-col>
+
         <b-col md>
           <b-form-group
             id="input-group-target"
@@ -43,10 +70,19 @@
             description="Desired Portfolio Mix"
           >
             <b-input-group size="sm" append="%">
-              <b-form-input id="input-target" v-model="newTarget" type="number" required size="sm"></b-form-input>
+              <b-form-input
+                id="input-target"
+                v-model="newTarget"
+                type="number"
+                required
+                size="sm"
+                :state="validTarget ? null : false"
+              ></b-form-input>
             </b-input-group>
+            <b-form-invalid-feedback :state="validTarget ? null : false">Must be 0% or higher</b-form-invalid-feedback>
           </b-form-group>
         </b-col>
+
         <b-col md align-h="end">
           <b-button variant="primary" size="sm" class="add-position-btn col-xs-12 col-lg-4" type="submit">Add</b-button>
         </b-col>
@@ -77,17 +113,27 @@ export default class AddPositionsCard extends Vue {
   newPrice = "";
   newShares = "";
   newTarget = "";
+  validSymbol?: boolean = true;
+  validPrice?: boolean = true;
+  validShares?: boolean = true;
+  validTarget?: boolean = true;
 
-  // TODO: Validations
   addPosition(): void {
-    this.$store.commit(
-      "addPosition",
-      new Position(this.newSymbol, parseInt(this.newPrice), parseInt(this.newShares), parseInt(this.newTarget))
-    );
-    this.newSymbol = "";
-    this.newPrice = "";
-    this.newShares = "";
-    this.newTarget = "";
+    this.validSymbol = this.newSymbol.length > 0;
+    this.validPrice = parseFloat(this.newPrice) > 0;
+    this.validShares = parseFloat(this.newShares) >= 0;
+    this.validTarget = parseFloat(this.newTarget) >= 0;
+
+    if (this.validSymbol && this.validPrice && this.validShares && this.validTarget) {
+      this.$store.commit(
+        "addPosition",
+        new Position(this.newSymbol, parseFloat(this.newPrice), parseInt(this.newShares), parseFloat(this.newTarget))
+      );
+      this.newSymbol = "";
+      this.newPrice = "";
+      this.newShares = "";
+      this.newTarget = "";
+    }
   }
 
   updateAvailableFunds(e: any): void {

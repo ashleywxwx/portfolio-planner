@@ -36,9 +36,9 @@ export default new Vuex.Store({
   state: {
     positions: Array<Position>(
       new Position("TUR", 10, 10, 5),
-      new Position("NIPS", 10, 50, 25),
+      new Position("NIPS", 10, 50, 20),
       new Position("STLK", 10, 100, 50),
-      new Position("MKT", 20, 0, 20)
+      new Position("MKT", 20, 0, 25)
     ),
     availableFunds: 1000
   },
