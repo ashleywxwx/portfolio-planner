@@ -32,9 +32,9 @@
         </b-col>
       </b-row>
 
-    <b-row class="mb-4">
+      <b-row class="mb-4">
         <b-col>
-          <AllocationsCard/>
+          <AllocationsGraphCard />
         </b-col>
       </b-row>
     </b-container>
@@ -47,11 +47,11 @@ import NavBar from "@/components/MyNavBar.vue";
 import AddPositionsCard from "@/components/AddPositionsCard.vue";
 import PortfolioCard from "@/components/PortfolioCard.vue";
 import BuyCard from "@/components/BuyCard.vue";
-import AllocationsCard from "@/AllocationsCard.vue";
+import AllocationsGraphCard from "@/components/AllocationsGraphCard.vue";
 
 @Component({
   components: {
-    AllocationsCard,
+    AllocationsGraphCard,
     BuyCard,
     PortfolioCard,
     AddPositionsCard,

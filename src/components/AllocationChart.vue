@@ -12,6 +12,8 @@ export default class AllocationChart extends Vue {
   public title!: string;
 
   mounted() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore: `chartData` Handled by reactiveProp mixin
     this.renderChart(this.chartData, { title: { text: this.title, display: true, fontSize: 16 } });
   }
 }

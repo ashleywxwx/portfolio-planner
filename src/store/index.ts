@@ -40,12 +40,11 @@ export default new Vuex.Store({
       new Position("NIPS", 10, 100, 50),
       new Position("STLK", 20, 40, 20)
     ),
-    availableFunds: 1000
+    availableFunds: localStorage.getItem("availableFunds")
+      ? parseInt(localStorage.getItem("availableFunds") as string)
+      : 0
   },
   getters: {
-    currentPortfolioValue: (state: VuexState): number => {
-      return getTotalValue(state.positions);
-    },
     portfolio: (state: VuexState): Array<PortfolioRecord> => {
       return state.positions.map(
         (p: Position) =>
@@ -102,6 +101,12 @@ export default new Vuex.Store({
       } else {
         return new Array<Buy>();
       }
+    },
+    invalidTarget(state: VuexState): boolean {
+      return getTotalTarget(state.positions) !== 100;
+    },
+    invalidFunds(state: VuexState): boolean {
+      return !(state.availableFunds > 0);
     }
   },
   mutations: {

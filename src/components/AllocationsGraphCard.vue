@@ -1,21 +1,24 @@
 <template>
   <b-card header="Allocations" header-tag="header">
-    <b-row>
-      <b-col>
-        <b-button :pressed.sync="enablePattern" variant="primary" size="sm" class="float-right">Pattern</b-button>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col md="4">
-        <AllocationChart :chartData="targets" :title="'Current Allocations'"></AllocationChart>
-      </b-col>
-      <b-col md="4">
-        <AllocationChart :chartData="currents" :title="'Target Allocations'"></AllocationChart>
-      </b-col>
-      <b-col md="4">
-        <AllocationChart :chartData="ends" :title="'Potential Allocations'"></AllocationChart>
-      </b-col>
-    </b-row>
+    <ValidationStatus />
+    <div v-if="!this.$store.getters.invalidTarget && !this.$store.getters.invalidFunds">
+      <b-row>
+        <b-col>
+          <b-button :pressed.sync="enablePattern" variant="primary" size="sm" class="float-right">Pattern</b-button>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="4">
+          <AllocationChart :chartData="targets" :title="'Current Allocations'"></AllocationChart>
+        </b-col>
+        <b-col md="4">
+          <AllocationChart :chartData="currents" :title="'Target Allocations'"></AllocationChart>
+        </b-col>
+        <b-col md="4">
+          <AllocationChart :chartData="ends" :title="'Potential Allocations'"></AllocationChart>
+        </b-col>
+      </b-row>
+    </div>
   </b-card>
 </template>
 <script lang="ts">
@@ -25,6 +28,7 @@ import Position from "@/models/Position";
 import PortfolioRecord from "@/models/PortfolioRecord";
 import Buy from "@/models/Buy";
 import AllocationChart from "@/components/AllocationChart.vue";
+import ValidationStatus from "@/components/ValidationStatus.vue";
 
 const colors = [
   "#f39c12",
@@ -43,9 +47,9 @@ const colors = [
 const patterns = pattern.generate(colors);
 
 @Component({
-  components: { AllocationChart }
+  components: { AllocationChart, ValidationStatus }
 })
-export default class AllocationsCard extends Vue {
+export default class AllocationsGraphCard extends Vue {
   enablePattern = false;
 
   get targets(): Record<string, any> {
