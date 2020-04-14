@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 interface VuexState {
   positions: Array<Position>;
-  availableFunds: number;
+  availableFunds?: number;
 }
 
 function round(value: number): number {
@@ -35,14 +35,12 @@ const shouldBuyFilter = (totalFunds: number, position: Position): boolean =>
 export default new Vuex.Store({
   state: {
     positions: Array<Position>(
-      new Position("IDX", 10, 10, 5),
-      new Position("TREX", 10, 50, 25),
-      new Position("NIPS", 10, 100, 50),
-      new Position("STLK", 20, 40, 20)
+      new Position("TUR", 10, 10, 5),
+      new Position("NIPS", 10, 50, 25),
+      new Position("STLK", 10, 100, 50),
+      new Position("MKT", 20, 0, 20)
     ),
-    availableFunds: localStorage.getItem("availableFunds")
-      ? parseInt(localStorage.getItem("availableFunds") as string)
-      : 0
+    availableFunds: 1000
   },
   getters: {
     portfolio: (state: VuexState): Array<PortfolioRecord> => {
@@ -62,13 +60,15 @@ export default new Vuex.Store({
       return getTotalTarget(state.positions);
     },
     buys: (state: VuexState): Array<Buy> => {
-      if (state.availableFunds > 0 && getTotalTarget(state.positions) === 100) {
+      if (state.availableFunds && state.availableFunds > 0 && getTotalTarget(state.positions) === 100) {
         const totalFunds = +state.availableFunds + +getTotalValue(state.positions);
         const shouldBuy = state.positions.filter(position => shouldBuyFilter(totalFunds, position));
 
         const buys = shouldBuy
           .map(position => {
             const overTarget = position.target / getTotalTarget(shouldBuy);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore state.availableFunds validate above
             const shares = Math.floor((state.availableFunds * overTarget) / position.price);
             return new Buy(position.symbol, shares, shares + position.shares, position.price, position.price * shares);
           })
@@ -106,7 +106,7 @@ export default new Vuex.Store({
       return getTotalTarget(state.positions) !== 100;
     },
     invalidFunds(state: VuexState): boolean {
-      return !(state.availableFunds > 0);
+      return !state.availableFunds || !(state.availableFunds > 0);
     }
   },
   mutations: {
@@ -118,6 +118,12 @@ export default new Vuex.Store({
     },
     updateAvailableFunds(state: VuexState, funds: number): void {
       state.availableFunds = funds;
+    },
+    initializeStore(state, version) {
+      if (localStorage.getItem("store")) {
+        const store = JSON.parse(localStorage.getItem("store") || "{}");
+        this.replaceState({ ...state, ...store });
+      }
     }
   },
   actions: {},

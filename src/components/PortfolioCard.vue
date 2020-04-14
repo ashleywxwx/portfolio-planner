@@ -2,7 +2,7 @@
   <b-card header="Portfolio" header-tag="header">
     <b-table responsive striped borderless small hover :items="portfolio" :fields="portfolioFields">
       <template v-slot:cell(actions)="row">
-        <b-button size="sm" @click="deletePosition(row.item.symbol)" class="mr-1">
+        <b-button size="sm" variant="danger" @click="deletePosition(row.item.symbol)" class="mr-1">
           Delete
         </b-button>
       </template>

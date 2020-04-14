@@ -53,7 +53,7 @@
       </b-form-row>
     </b-form>
 
-    <b-card-text>Current Total Target Allocation</b-card-text>
+    <b-card-text>Current Target Allocation</b-card-text>
     <b-progress height="2rem" :style="{ fontSize: 1.25 + 'em' }">
       <b-progress-bar :value="totalTarget" v-bind:variant="progressVariant"
         ><strong>{{ totalTarget }}%</strong></b-progress-bar
@@ -62,7 +62,7 @@
 
     <b-card-text class="mt-3">Available Funds</b-card-text>
     <b-input-group prepend="$" type="number" class="funds-input">
-      <b-form-input v-model="availableFunds" type="number"></b-form-input>
+      <b-form-input :value="availableFunds" @input="updateAvailableFunds" type="number"></b-form-input>
     </b-input-group>
   </b-card>
 </template>
@@ -77,7 +77,6 @@ export default class AddPositionsCard extends Vue {
   newPrice = "";
   newShares = "";
   newTarget = "";
-  availableFunds = 1000;
 
   // TODO: Validations
   addPosition(): void {
@@ -91,11 +90,13 @@ export default class AddPositionsCard extends Vue {
     this.newTarget = "";
   }
 
-  @Watch("availableFunds")
-  updateAvailableFunds(): void {
-    this.$store.commit("updateAvailableFunds", this.availableFunds);
+  updateAvailableFunds(e: any): void {
+    this.$store.commit("updateAvailableFunds", e);
   }
 
+  get availableFunds(): number {
+    return this.$store.state.availableFunds;
+  }
   get totalTarget(): number {
     return this.$store.getters.currentTotalTarget;
   }

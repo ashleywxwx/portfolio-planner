@@ -9,10 +9,10 @@
       </b-row>
       <b-row>
         <b-col md="4">
-          <AllocationChart :chartData="targets" :title="'Current Allocations'"></AllocationChart>
+          <AllocationChart :chartData="currents" :title="'Current Allocations'"></AllocationChart>
         </b-col>
         <b-col md="4">
-          <AllocationChart :chartData="currents" :title="'Target Allocations'"></AllocationChart>
+          <AllocationChart :chartData="targets" :title="'Target Allocations'"></AllocationChart>
         </b-col>
         <b-col md="4">
           <AllocationChart :chartData="ends" :title="'Potential Allocations'"></AllocationChart>
