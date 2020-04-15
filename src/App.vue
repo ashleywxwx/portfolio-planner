@@ -6,7 +6,7 @@
       <b-row>
         <b-col>
           <b-jumbotron
-            header="Portfolio Calculator"
+            header="Portfolio Planner"
             lead="Help calculate potential index fund and stock choices for a balanced portfolio. Provide your current positions, desired portfolio mix, and available funds, and this tool will calculate what you might buy to align your portfolio to your target goals."
           >
             <p>This is not financial planning advice, please don't sue me.</p>

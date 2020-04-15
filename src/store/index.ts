@@ -9,6 +9,11 @@ Vue.use(Vuex);
 interface VuexState {
   positions: Array<Position>;
   availableFunds?: number;
+  newSymbol: string;
+  newPrice: string;
+  newShares: string;
+  newTarget: string;
+  version: string;
 }
 
 function round(value: number): number {
@@ -40,7 +45,12 @@ export default new Vuex.Store({
       new Position("STLK", 10, 100, 50),
       new Position("MKT", 20, 0, 25)
     ),
-    availableFunds: 1000
+    availableFunds: 1000,
+    newSymbol: "",
+    newPrice: "",
+    newShares: "",
+    newTarget: "",
+    version: ""
   },
   getters: {
     portfolio: (state: VuexState): Array<PortfolioRecord> => {
@@ -116,13 +126,43 @@ export default new Vuex.Store({
     removePosition(state: VuexState, symbol: string): void {
       state.positions = state.positions.filter(p => p.symbol !== symbol);
     },
+    editPosition(state: VuexState, symbol: string): void {
+      const edit = state.positions.filter((p: Position) => p.symbol == symbol)[0];
+      state.newSymbol = edit.symbol;
+      state.newPrice = edit.price.toString();
+      state.newShares = edit.shares.toString();
+      state.newTarget = edit.target.toString();
+      state.positions = state.positions.filter(p => p.symbol !== symbol);
+    },
+    clearNew(state: VuexState): void {
+      state.newSymbol = "";
+      state.newPrice = "";
+      state.newShares = "";
+      state.newTarget = "";
+    },
     updateAvailableFunds(state: VuexState, funds: number): void {
       state.availableFunds = funds;
     },
-    initializeStore(state, version) {
+    updateNewSymbol(state: VuexState, symbol: string): void {
+      state.newSymbol = symbol;
+    },
+    updateNewPrice(state: VuexState, price: string): void {
+      state.newPrice = price;
+    },
+    updateNewShares(state: VuexState, shares: string): void {
+      state.newShares = shares;
+    },
+    updateNewTarget(state: VuexState, target: string): void {
+      state.newTarget = target;
+    },
+    initializeStore(state: VuexState, version: string) {
       if (localStorage.getItem("store")) {
         const store = JSON.parse(localStorage.getItem("store") || "{}");
-        this.replaceState({ ...state, ...store });
+        if (store.version === version) {
+          this.replaceState({ ...state, ...store });
+        } else {
+          this.replaceState({ ...state, version });
+        }
       }
     }
   },

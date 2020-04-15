@@ -2,6 +2,9 @@
   <b-card header="Portfolio" header-tag="header">
     <b-table responsive striped borderless small hover :items="portfolio" :fields="portfolioFields">
       <template v-slot:cell(actions)="row">
+        <b-button size="sm" variant="warning" @click="editPosition(row.item.symbol)" class="mr-1">
+          Edit
+        </b-button>
         <b-button size="sm" variant="danger" @click="deletePosition(row.item.symbol)" class="mr-1">
           Delete
         </b-button>
@@ -42,6 +45,10 @@ export default class extends Vue {
 
   deletePosition(symbol: string): void {
     this.$store.commit("removePosition", symbol);
+  }
+
+  editPosition(symbol: string): void {
+    this.$store.commit("editPosition", symbol);
   }
 }
 </script>

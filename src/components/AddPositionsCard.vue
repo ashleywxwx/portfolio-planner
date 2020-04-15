@@ -9,11 +9,12 @@
             label="Symbol"
             label-for="input-symbol"
             description="Index or Stock Ticker Symbol"
-            invalid-feedback="Valid symbol required"
+            invalid-feedback="Unique symbol required"
           >
             <b-form-input
               id="input-symbol"
-              v-model="newSymbol"
+              :value="this.$store.state.newSymbol"
+              @input="updateSymbol"
               type="text"
               required
               size="sm"
@@ -32,7 +33,8 @@
             <b-input-group size="sm" prepend="$">
               <b-form-input
                 id="input-price"
-                v-model="newPrice"
+                :value="this.$store.state.newPrice"
+                @update="updatePrice"
                 type="number"
                 required
                 size="sm"
@@ -53,7 +55,8 @@
           >
             <b-form-input
               id="input-shares"
-              v-model="newShares"
+              :value="this.$store.state.newShares"
+              @update="updateShares"
               type="number"
               required
               size="sm"
@@ -72,7 +75,8 @@
             <b-input-group size="sm" append="%">
               <b-form-input
                 id="input-target"
-                v-model="newTarget"
+                :value="this.$store.state.newTarget"
+                @update="updateTarget"
                 type="number"
                 required
                 size="sm"
@@ -109,35 +113,51 @@ import Position from "@/models/Position";
 
 @Component({})
 export default class AddPositionsCard extends Vue {
-  newSymbol = "";
-  newPrice = "";
-  newShares = "";
-  newTarget = "";
   validSymbol?: boolean = true;
   validPrice?: boolean = true;
   validShares?: boolean = true;
   validTarget?: boolean = true;
 
   addPosition(): void {
-    this.validSymbol = this.newSymbol.length > 0;
-    this.validPrice = parseFloat(this.newPrice) > 0;
-    this.validShares = parseFloat(this.newShares) >= 0;
-    this.validTarget = parseFloat(this.newTarget) >= 0;
+    this.validSymbol =
+      this.$store.state.newSymbol.length > 0 &&
+      this.$store.state.positions.filter((p: Position) => p.symbol == this.$store.state.newSymbol).length == 0;
+    this.validPrice = parseFloat(this.$store.state.newPrice) > 0;
+    this.validShares = parseFloat(this.$store.state.newShares) >= 0;
+    this.validTarget = parseFloat(this.$store.state.newTarget) >= 0;
 
     if (this.validSymbol && this.validPrice && this.validShares && this.validTarget) {
       this.$store.commit(
         "addPosition",
-        new Position(this.newSymbol, parseFloat(this.newPrice), parseInt(this.newShares), parseFloat(this.newTarget))
+        new Position(
+          this.$store.state.newSymbol,
+          parseFloat(this.$store.state.newPrice),
+          parseInt(this.$store.state.newShares),
+          parseFloat(this.$store.state.newTarget)
+        )
       );
-      this.newSymbol = "";
-      this.newPrice = "";
-      this.newShares = "";
-      this.newTarget = "";
+      this.$store.commit("clearNew");
     }
   }
 
-  updateAvailableFunds(e: any): void {
+  updateAvailableFunds(e: number): void {
     this.$store.commit("updateAvailableFunds", e);
+  }
+
+  updateSymbol(e: string): void {
+    this.$store.commit("updateNewSymbol", e);
+  }
+
+  updatePrice(e: number): void {
+    this.$store.commit("updateNewPrice", e.toString());
+  }
+
+  updateShares(e: number): void {
+    this.$store.commit("updateNewShares", e.toString());
+  }
+
+  updateTarget(e: number): void {
+    this.$store.commit("updateNewTarget", e.toString());
   }
 
   get availableFunds(): number {
